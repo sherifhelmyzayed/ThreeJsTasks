@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,35 +12,32 @@
 
     <div class="slider-container">
         <div class="row">
-            <input id="offset"  name="offset" type="range" min="0" max="500" value="300" onchange="offsetChange()">
-            <label id="offsetLabel"  for="minDistance">offset: 300</label>
+            <input id="offset" name="offset" type="range" min="0" max="500" value="300" onchange="offsetChange()">
+            <label id="offsetLabel" for="minDistance">offset: 300</label>
         </div>
         <hr>
         <div class="row">
-            <input name="checkbox" type="checkbox" onchange="changeCondition()"/>
+            <input name="checkbox" type="checkbox" onchange="changeCondition()" />
             <label for="checbox">Enable extendid orbit controls</label>
         </div>
         <div class="row">
-            <input id="maxDistance" name="maxDistance" type="range" min="300" max="1000" value="500" onchange="maxDistanceChange()" disabled>
+            <input id="maxDistance" name="maxDistance" type="range" min="300" max="1000" value="500"
+                onchange="maxDistanceChange()" disabled>
             <label id="maxDistanceLabel" for="maxDistance">maximum distance: 500</label>
         </div>
         <div class="row">
-            <input id="minDistance"  name="minDistance" type="range" min="50" max="300" value="50" onchange="minDistanceChange()" disabled>
-            <label id="minDistanceLabel"  for="minDistance">minimum distance: 50</label>
+            <input id="minDistance" name="minDistance" type="range" min="50" max="300" value="50"
+                onchange="minDistanceChange()" disabled>
+            <label id="minDistanceLabel" for="minDistance">minimum distance: 50</label>
         </div>
-
-
     </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js" integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js"
+        integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg=="
+        crossorigin="anonymous"></script>
     <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/examples/js/controls/OrbitControls.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
-
-
-
-
     <script type="text/javascript" src="main.js"></script>
 
 </body>

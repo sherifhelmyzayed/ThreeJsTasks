@@ -64,15 +64,10 @@ const init = () => {
             }
         })
         const obj = gltf.scene.children[0];
-        obj.position.set(22,0,0)
+        obj.position.set(22, 0, 0)
         scene.add(gltf.scene);
         animate();
     })
-
-
-
-
-
 
 
     // controls
@@ -205,7 +200,6 @@ const changeCondition = () => {
         document.getElementById('minDistance').setAttribute('disabled', '')
     }
 }
-
 
 
 /////////////////////////////////////////////////////////////////////

@@ -11,6 +11,10 @@ canvas {
     height: 100%;
 }
 
+label {
+    margin-left: 10px;
+}
+
 .slider-container {
     display: flex;
     flex-direction: column;
@@ -26,6 +30,3 @@ canvas {
     padding: 5px 10px;
 }
 
-label {
-    margin-left: 10px;
-}
