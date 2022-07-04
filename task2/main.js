@@ -2,7 +2,14 @@
 //////////////////// THREEJS SCENE PREP STARTS //////////////////////
 /////////////////////////////////////////////////////////////////////
 
-let camera, controls, scene, renderer;
+let camera, controls, scene, renderer, sphere, raycaster, obj;
+let newMax, newMin, newOffset, newDistance;
+
+// case 1 variables
+
+let newMin1, newMax1, newOffset1 = 300, case1Condition = false;
+
+let clickMouse = new THREE.Vector2();  // create once
 
 const init = () => {
     // scene
@@ -17,8 +24,8 @@ const init = () => {
     hlight = new THREE.AmbientLight(0x404040, 50)
     scene.add(hlight)
 
-    let directionalLight = new THREE.DirectionalLight (0xffffff, 5)
-    directionalLight.position.set(0,10,0)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 5)
+    directionalLight.position.set(0, 10, 0)
     directionalLight.castShadow = true;
     scene.add(directionalLight)
 
@@ -33,11 +40,23 @@ const init = () => {
 
 
     // loader
-    let loader = new THREE.GLTFLoader();
-    let obj
+    const loader = new THREE.GLTFLoader();
     loader.load('./glb/scene.gltf', (gltf) => {
-        console.log(gltf);
-        obj = gltf.scene.children[0];
+
+        // updates actual dimensions after object scaling 
+        gltf.scene.updateMatrixWorld(true)
+
+        // traverse to get object dimensions
+        gltf.scene.traverse((child) => {
+            if (child.isMesh) {
+                const box = new THREE.Box3().setFromObject(child);
+                const boxSize = box.getSize(new THREE.Vector3());
+                console.log(boxSize);
+            }
+        })
+        const obj = gltf.scene.children[0];
+        // obj.scale.set(.1,1,1)
+        console.log(obj);
         scene.add(gltf.scene);
         animate();
     })
@@ -45,15 +64,14 @@ const init = () => {
 
 
 
-
     // Sphere
-    const geometry = new THREE.BoxGeometry(50, 32, 32);
+    const geometry = new THREE.BoxGeometry(188, 134, 62.3);
     const material = new THREE.MeshBasicMaterial({
         color: 0xffff00
     });
-    const sphere = new THREE.Mesh(geometry, material);
+    sphere = new THREE.Mesh(geometry, material);
+    sphere.position.set(-55, 0, 0)
     scene.add(sphere);
-
 
 
     // controls
@@ -61,12 +79,19 @@ const init = () => {
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = true;
-    controls.minDistance = 1;
-    controls.maxDistance = 30000;
+    controls.minDistance = 50;
+    controls.maxDistance = 500;
     controls.maxPolarAngle = Math.PI / 2;
+
+    newMax = 500
+    newMin = 50
 
     // window resize event
     window.addEventListener('resize', onWindowResize);
+
+    // raycaster
+    raycaster = new THREE.Raycaster()
+    console.log(raycaster);
 }
 
 const onWindowResize = () => {
@@ -77,21 +102,141 @@ const onWindowResize = () => {
 
 const animate = () => {
     requestAnimationFrame(animate);
+
+    // checkDistance
+
+    (case1Condition)
+        ? extendedMinMax()
+        : boundingMinMax()
+
+
+
+
+    // (controls.maxDistance > newMax)
+    //     ? controls.maxDistance -= 10
+    //     : controls.maxDistance < newMax
+    //         ? controls.maxDistance = parseInt(newMax)
+    //         : '';
+
+
+    // (controls.minDistance < newMin)
+    //     ? controls.minDistance += 10
+    //     : controls.minDistance > newMin
+    //         ? controls.minDistance = parseInt(newMin)
+    //         : '';
+
     controls.update();
     render();
+    // console.log(camera.position.distanceTo( controls.target ));
 }
+
+// const checkDistance = ()=>{
+//     raycaster.camera = camera;
+//     let intersects = raycaster.intersectObject(sphere)
+//     console.log(intersects);
+// }
 
 const render = () => {
     renderer.render(scene, camera);
 }
 
+
+
+
+// raycaster
+const boundingMinMax = () => {
+    raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+    newMin1 = camera.position.distanceTo(controls.target) - raycaster.intersectObjects(scene.children)[0].distance + 50;
+    newMax1 = newOffset1 + newMin1;
+    const minMaxArr = [newMin1, newMax1];
+    (controls.maxDistance > minMaxArr[1])
+        ? controls.maxDistance -= 10
+        : controls.maxDistance < minMaxArr[1]
+            ? controls.maxDistance = parseInt(minMaxArr[1])
+            : '';
+
+    (controls.minDistance < minMaxArr[0])
+        ? controls.minDistance += 10
+        : controls.minDistance > minMaxArr[0]
+            ? controls.minDistance = parseInt(minMaxArr[0])
+            : '';
+}
+
+const extendedMinMax = () => {
+    console.log("Extended Min Max working");
+    
+    (controls.maxDistance > newMax)
+        ? controls.maxDistance -= 10
+        : controls.maxDistance < newMax
+            ? controls.maxDistance = parseInt(newMax)
+            : '';
+
+
+    (controls.minDistance < newMin)
+        ? controls.minDistance += 10
+        : controls.minDistance > newMin
+            ? controls.minDistance = parseInt(newMin)
+            : '';
+}
+
 init();
 render();
-animate();
+// animate();
 
 
 
 /////////////////////////////////////////////////////////////////////
 //////////////////// THREEJS SCENE PREP ends ////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////
+//////////////////// SLIDER CONTROLLER START ////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+
+const maxDistanceChange = () => {
+    document.getElementById('maxDistanceLabel').innerText = `maximum distance: ${event.target.value}`;
+    newMax = event.target.value
+
+}
+
+const minDistanceChange = () => {
+    document.getElementById('minDistanceLabel').innerText = `minimum distance: ${event.target.value}`;
+    newMin = event.target.value
+}
+
+const offsetChange = () => {
+    document.getElementById('offsetLabel').innerText = `offset: ${event.target.value}`;
+    newOffset1 = parseInt(event.target.value)
+}
+
+
+const changeCondition = () => {
+    case1Condition = event.target.checked
+    if (case1Condition) {
+        document.getElementById('offset').setAttribute('disabled', '')
+        document.getElementById('maxDistance').removeAttribute('disabled')
+        document.getElementById('minDistance').removeAttribute('disabled')
+    } else {
+        document.getElementById('offset').removeAttribute('disabled')
+        document.getElementById('maxDistance').setAttribute('disabled', '')
+        document.getElementById('minDistance').setAttribute('disabled', '')
+    }
+}
+
+
+
+/////////////////////////////////////////////////////////////////////
+//////////////////// SLIDER CONTROLLER ENDS  ////////////////////////
 /////////////////////////////////////////////////////////////////////
 
