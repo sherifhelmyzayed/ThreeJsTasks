@@ -2,7 +2,7 @@
 //////////////////// THREEJS SCENE PREP STARTS //////////////////////
 /////////////////////////////////////////////////////////////////////
 
-let camera, controls, scene, renderer, sphere, raycaster, obj;
+let camera, controls, scene, renderer, boundingObject, raycaster, obj;
 let newMax, newMin, newOffset, newDistance;
 
 // case 1 variables
@@ -51,12 +51,20 @@ const init = () => {
             if (child.isMesh) {
                 const box = new THREE.Box3().setFromObject(child);
                 const boxSize = box.getSize(new THREE.Vector3());
-                console.log(boxSize);
+
+                // creating boundingObject
+                const geometry = new THREE.BoxGeometry(boxSize.x, boxSize.y, boxSize.z);
+                const material = new THREE.MeshBasicMaterial({
+                    wireframe: true,
+                    color: 0xffff00,
+                });
+                // material.transparent = true
+                boundingObject = new THREE.Mesh(geometry, material);
+                scene.add(boundingObject);
             }
         })
         const obj = gltf.scene.children[0];
-        // obj.scale.set(.1,1,1)
-        console.log(obj);
+        obj.position.set(22,0,0)
         scene.add(gltf.scene);
         animate();
     })
@@ -64,14 +72,7 @@ const init = () => {
 
 
 
-    // Sphere
-    const geometry = new THREE.BoxGeometry(188, 134, 62.3);
-    const material = new THREE.MeshBasicMaterial({
-        color: 0xffff00
-    });
-    sphere = new THREE.Mesh(geometry, material);
-    sphere.position.set(-55, 0, 0)
-    scene.add(sphere);
+
 
 
     // controls
@@ -91,7 +92,6 @@ const init = () => {
 
     // raycaster
     raycaster = new THREE.Raycaster()
-    console.log(raycaster);
 }
 
 const onWindowResize = () => {
@@ -102,39 +102,12 @@ const onWindowResize = () => {
 
 const animate = () => {
     requestAnimationFrame(animate);
-
-    // checkDistance
-
     (case1Condition)
         ? extendedMinMax()
         : boundingMinMax()
-
-
-
-
-    // (controls.maxDistance > newMax)
-    //     ? controls.maxDistance -= 10
-    //     : controls.maxDistance < newMax
-    //         ? controls.maxDistance = parseInt(newMax)
-    //         : '';
-
-
-    // (controls.minDistance < newMin)
-    //     ? controls.minDistance += 10
-    //     : controls.minDistance > newMin
-    //         ? controls.minDistance = parseInt(newMin)
-    //         : '';
-
     controls.update();
     render();
-    // console.log(camera.position.distanceTo( controls.target ));
 }
-
-// const checkDistance = ()=>{
-//     raycaster.camera = camera;
-//     let intersects = raycaster.intersectObject(sphere)
-//     console.log(intersects);
-// }
 
 const render = () => {
     renderer.render(scene, camera);
@@ -164,7 +137,7 @@ const boundingMinMax = () => {
 
 const extendedMinMax = () => {
     console.log("Extended Min Max working");
-    
+
     (controls.maxDistance > newMax)
         ? controls.maxDistance -= 10
         : controls.maxDistance < newMax
@@ -181,7 +154,6 @@ const extendedMinMax = () => {
 
 init();
 render();
-// animate();
 
 
 
@@ -239,4 +211,3 @@ const changeCondition = () => {
 /////////////////////////////////////////////////////////////////////
 //////////////////// SLIDER CONTROLLER ENDS  ////////////////////////
 /////////////////////////////////////////////////////////////////////
-
