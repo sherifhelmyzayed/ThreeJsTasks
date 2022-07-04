@@ -17,4 +17,15 @@ canvas {
     position: fixed;
     top: 20px;
     left: 20px;
+    background-color: rgba(161, 161, 161, 0.356);
+    padding: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.row {
+    padding: 5px 10px;
+}
+
+label {
+    margin-left: 10px;
 }

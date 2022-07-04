@@ -12,20 +12,22 @@
 <body>
 
     <div class="slider-container">
-        <div>
-            <input id="maxDistance" name="maxDistance" type="range" min="300" max="1000" value="500" onchange="maxDistanceChange()" disabled>
-            <label id="maxDistanceLabel" for="maxDistance">maximum distance: 500</label>
-        </div>
-        <div>
-            <input id="minDistance"  name="minDistance" type="range" min="50" max="300" value="50" onchange="minDistanceChange()" disabled>
-            <label id="minDistanceLabel"  for="minDistance">minimum distance: 50</label>
-        </div>
-        <div>
+        <div class="row">
             <input id="offset"  name="offset" type="range" min="0" max="500" value="300" onchange="offsetChange()">
             <label id="offsetLabel"  for="minDistance">offset: 300</label>
         </div>
-        <div>
-            <input type="checkbox" onchange="changeCondition()"/>
+        <hr>
+        <div class="row">
+            <input name="checkbox" type="checkbox" onchange="changeCondition()"/>
+            <label for="checbox">Enable extendid orbit controls</label>
+        </div>
+        <div class="row">
+            <input id="maxDistance" name="maxDistance" type="range" min="300" max="1000" value="500" onchange="maxDistanceChange()" disabled>
+            <label id="maxDistanceLabel" for="maxDistance">maximum distance: 500</label>
+        </div>
+        <div class="row">
+            <input id="minDistance"  name="minDistance" type="range" min="50" max="300" value="50" onchange="minDistanceChange()" disabled>
+            <label id="minDistanceLabel"  for="minDistance">minimum distance: 50</label>
         </div>
 
 
