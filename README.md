@@ -68,6 +68,10 @@
         model dimensions. This box is created to calculate distance from camera
         using raytracing. 
 
+        bounding box can be cylinder and capsule and Box, and user can choose
+        which one suits best the model. creation of each element can be automated
+        but I dont believe this was the scope of this task. 
+
         The concept of this procedure is:
         Distance from point (0,0,0) to the bounding box towards the camera =
         distance from camera to point (0,0,0) - distance from camera to bounding box
