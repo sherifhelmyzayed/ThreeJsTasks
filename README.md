@@ -1,4 +1,4 @@
-# **General info 
+# General info 
     This project consist of 2 tasks for testing threeJs 
 
 # Technologies
@@ -9,7 +9,7 @@
     to run each task, clone this project and run each html file 
     seperately
 
-# **Task 1 
+# Task 1 
 ### General Description
     This task is to enable the user to add glb file and match JPG/PNG
     pictures. each picture should have its own camera attributes.
@@ -50,7 +50,7 @@
     on point (0,0,0) because of the orbitControl. Although camera rotation
     is stored with position in each pov pairs
 
-# **Task 2 
+# Task 2 
 ### General Description
 
     This task is to enable the user choose between 2 modes of controlling
