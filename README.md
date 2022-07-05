@@ -1,25 +1,21 @@
-########################################################################
-########################################################################
-########################################################################
-
-## General info 
+# **General info 
     This project consist of 2 tasks for testing threeJs 
 
-## Technologies
+# Technologies
     Technologies used are HTML, CSS, VanillaJS,
     gsap, and lastly threeJS
 
-## setup
+# setup
     to run each task, clone this project and run each html file 
     seperately
 
-##### Task 1 #####
-## Description
+# **Task 1 
+### General Description
     This task is to enable the user to add glb file and match JPG/PNG
     pictures. each picture should have its own camera attributes.
 
     This task was done using Orbit controls and perspective camera.
-## 
+### More details
     POV pair contain unique mediaID, and pov attributes
 
     Upon page load. an object created from a class which contains of 
@@ -54,16 +50,23 @@
     on point (0,0,0) because of the orbitControl. Although camera rotation
     is stored with position in each pov pairs
 
-##### Task 2 #####
-## Description
+# **Task 2 
+### General Description
 
     This task is to enable the user choose between 2 modes of controlling
     minimum and maximum camera distance from the center.
 
     This task was done using Orbit controls and perspective camera.
 
-##
-    Case 1:
+### More details
+    to toggle between case one and case two, user should toggle checkbox.
+    In order to achieve animated camera movement, setting any value is done over 
+    10 values for each frame to achieve smooth transition. 
+    (ie: speed slider can be added in the future)
+
+    Each implementation is parametric, and previous values are stored in separate 
+    variables, so by toggling on and off case checkbox, you can notice the difference
+#### Case 1:
         Upon loading a model, a custom bounding box is created using existing
         model dimensions. This box is created to calculate distance from camera
         using raytracing. 
@@ -81,19 +84,8 @@
 
         offset is entered through a slider by the user.
 
-    Case 2: 
+#### Case 2: 
         user can select minimum and maximum distances for the orbit controls through
         2 sliders on top left of the page.
 
-    to toggle between case one and case two, user should toggle checkbox.
-    In order to achieve animated camera movement, setting any value is done over 
-    10 values for each frame to achieve smooth transition. 
-    (ie: speed slider can be added in the future)
-
-    Each implementation is parametric, and previous values are stored in separate 
-    variables, so by toggling on and off case checkbox, you can notice the difference
-
-########################################################################
-########################################################################
-########################################################################
 
