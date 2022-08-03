@@ -86,31 +86,27 @@ class pairCollection {
     #povPairs = [
     ];
 
-    setPair(...args) {
-        // destruct arguments
-        const [mediaID, pov] = args
-        if (mediaID != undefined && pov != undefined) {
+    setPair(mediaID, pov) {
+        if (mediaID === undefined || pov === undefined) throw RangeError();
 
-            // checks if mediaID exists in pov pairs
-            const filteredItem = this.#povPairs.filter((item) => (item.mediaID === mediaID))
+        // checks if mediaID exists in pov pairs
+        const filteredItem = this.#povPairs.find((item) => (item.mediaID === mediaID))
 
-            // if one pair already exists, this changes pov values, if not, it creates new pair
-            filteredItem.length ? (
-                this.#povPairs.map(
-                    current => (current.mediaID === mediaID)
-                        ? current.pov = pov
-                        : ''
-                )
-            ) : (
-                this.#povPairs.push({ mediaID: mediaID, pov: pov })
+        // if mediaID exists, POV data are changed, otherwise new data is created
+        if (filteredItem) {
+            this.#povPairs.map(
+                current => (current.mediaID === mediaID)
+                    ? current.pov = pov
+                    : null
             )
-            return this.#povPairs
+        } else {
+            this.#povPairs.push({ mediaID: mediaID, pov: pov })
         }
     }
 
     // gets pov pair for matching mediaID
     getPov(mediaID) {
-        return this.#povPairs.filter(el => el.mediaID === mediaID)[0]
+        return this.#povPairs.find(el => el.mediaID === mediaID)
     }
 
     // gets the nearest position in pov pair
@@ -120,9 +116,8 @@ class pairCollection {
 
         // calculates the distance from each pov element
         for (const item of distArr) {
-            item.distance = Math.sqrt(
+            item.distance = 
                 (item.pov.position[0] - pov[0]) ** 2 + (item.pov.position[1] - pov[1]) ** 2 + (item.pov.position[2] - pov[2]) ** 2
-            )
         }
 
         // sort the pov according to the lowest distance
@@ -145,11 +140,22 @@ const mediaCollection = new pairCollection
 // console.log("First Test: ");
 
 // mediaCollection.setPair(
-//     '123454',
+//     123455,
 //     {
 //         position: [20, 20, 20],
 //         rotation: [10, 0, 0]
 //     }
+// )
+
+
+// console.log(
+//     mediaCollection.setPair(
+//         123456,
+//         {
+//             position: [60, 20, 20],
+//             rotation: [10, 0, 0]
+//         }
+//     )
 // );
 
 // mediaCollection.setPair(
@@ -193,14 +199,14 @@ const mediaCollection = new pairCollection
 // ///////// SECOND TEST ENDS  ////////////
 
 
-// //////////// THIRD TEST  ///////////////
-// ////// GETTING POV FROM MEDIAID /////////
+//////////// THIRD TEST  ///////////////
+////// GETTING POV FROM MEDIAID /////////
 // console.log(" ");
 // console.log("Third Test: ");
 // console.log(mediaCollection.getPov(
-//     '123455'
+//     123455
 // ));
-// ///////// THIRD TEST ENDS  ////////////
+///////// THIRD TEST ENDS  ////////////
 
 
 // //////////// FOURTH TEST  ///////////////
@@ -234,6 +240,9 @@ const mediaCollection = new pairCollection
 //     })
 //     reader.readAsDataURL(imageInput.files[0])
 // })
+
+const imageContainer = document.getElementsByClassName('image-container')[0];
+
 
 
 //selecting all required elements
@@ -281,9 +290,9 @@ const addFile = () => {
                 imageContainer.getElementsByClassName('cards')[0].insertAdjacentHTML('beforeend', `
                 <img onclick="thumbnailClick()" src="${fileURL}" alt="image" imageId="${uniqueId}" class="thumbnail-img" img>
                 `)
-                    mediaCollection.setPair(
-                        uniqueId, ''
-                    )
+                mediaCollection.setPair(
+                    uniqueId, ''
+                )
             }
             fileReader.readAsDataURL(file[i]);
         } catch {
@@ -305,7 +314,6 @@ const addFile = () => {
 //////////////////// SLIDER CONTAINER START  ////////////////////////
 /////////////////////////////////////////////////////////////////////
 
-const imageContainer = document.getElementsByClassName('image-container')[0];
 
 // const cards = document.getElementsByClassName('cards')[0]
 
