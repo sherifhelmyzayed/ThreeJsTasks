@@ -180,6 +180,8 @@ const maxDistanceChange = () => {
 const minDistanceChange = () => {
     document.getElementById('minDistanceLabel').innerText = `minimum distance: ${event.target.value}`;
     newMin = event.target.value
+    // 
+    //
 }
 
 const offsetChange = () => {
